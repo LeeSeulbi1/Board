@@ -2,6 +2,7 @@ package com.board.board.controller;
 
 import com.board.board.Service.PostService;
 import com.board.board.controller.exception.PostNotFoundException;
+import com.board.board.dto.AuthorizeException;
 import com.board.board.dto.PostAddRequestDto;
 import com.board.board.dto.PostResponseDto;
 import com.board.board.dto.PostUpdateRequestDto;
@@ -64,6 +65,16 @@ public class PostController {
     @ExceptionHandler(PostNotFoundException.class)
     public ResponseEntity<?> postNotFoundExceptionHandler(PostNotFoundException ex){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ErrorResponseDto(
+                        HttpStatus.NOT_FOUND.value(),
+                        ex.getMessage()
+                )
+        );
+    }
+
+    @ExceptionHandler(AuthorizeException.class)
+    public ResponseEntity<ErrorResponseDto> postNotFoundExceptionHandler(AuthorizeException ex){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
                 new ErrorResponseDto(
                         HttpStatus.NOT_FOUND.value(),
                         ex.getMessage()

@@ -1,6 +1,7 @@
 package com.board.board.Service;
 
 import com.board.board.controller.exception.PostNotFoundException;
+import com.board.board.dto.AuthorizeException;
 import com.board.board.dto.PostAddRequestDto;
 import com.board.board.dto.PostResponseDto;
 import com.board.board.dto.PostUpdateRequestDto;
@@ -57,7 +58,7 @@ public class PostService {
 
     private static void verifyPassword(PostEntity postEntity, String password) {
         if (!postEntity.passwordMatches(password)) {
-            throw new NullPointerException("비밀번호가 일치하지 않습니다.");
+            throw new AuthorizeException("비밀번호가 일치하지 않습니다.");
         }
     }
 }
