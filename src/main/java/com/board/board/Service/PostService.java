@@ -1,5 +1,6 @@
 package com.board.board.Service;
 
+import com.board.board.controller.exception.PostNotFoundException;
 import com.board.board.dto.PostAddRequestDto;
 import com.board.board.dto.PostResponseDto;
 import com.board.board.dto.PostUpdateRequestDto;
@@ -51,7 +52,7 @@ public class PostService {
     
     private PostEntity getPostEntity(Long postId) {
         return postJpaRepository.findById(postId)
-                .orElseThrow(() -> new NullPointerException("해당 게시글을 찾을 수 없습니다."));
+                .orElseThrow(() -> new PostNotFoundException("해당 게시글을 찾을 수 없습니다."));
     }
 
     private static void verifyPassword(PostEntity postEntity, String password) {

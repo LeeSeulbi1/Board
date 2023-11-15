@@ -1,9 +1,11 @@
 package com.board.board.controller;
 
 import com.board.board.Service.PostService;
+import com.board.board.controller.exception.PostNotFoundException;
 import com.board.board.dto.PostAddRequestDto;
 import com.board.board.dto.PostResponseDto;
 import com.board.board.dto.PostUpdateRequestDto;
+import com.board.board.dto.exception.ErrorResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,5 +59,15 @@ public class PostController {
     ){
         postService.deletePost(postId, password);
         return ResponseEntity.noContent().build();
+    }
+
+    @ExceptionHandler(PostNotFoundException.class)
+    public ResponseEntity<?> postNotFoundExceptionHandler(PostNotFoundException ex){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ErrorResponseDto(
+                        HttpStatus.NOT_FOUND.value(),
+                        ex.getMessage()
+                )
+        );
     }
 }
