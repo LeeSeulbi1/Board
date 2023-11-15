@@ -1,6 +1,7 @@
 package com.board.board.entity;
 
 import com.board.board.dto.PostAddRequestDto;
+import com.board.board.dto.PostUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -28,5 +29,12 @@ public class PostEntity extends TimeEntity {
         this.author = requestDto.getAuthor();
         this.password = requestDto.getPassword();
         this.contents = requestDto.getContent();
+    }
+
+    public void update(PostUpdateRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.author = requestDto.getAuthor();
+        this.contents = requestDto.getContent();
+
     }
 }

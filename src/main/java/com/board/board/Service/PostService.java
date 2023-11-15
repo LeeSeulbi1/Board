@@ -2,10 +2,12 @@ package com.board.board.Service;
 
 import com.board.board.dto.PostAddRequestDto;
 import com.board.board.dto.PostResponseDto;
+import com.board.board.dto.PostUpdateRequestDto;
 import com.board.board.entity.PostEntity;
 import com.board.board.repository.PostJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,8 +25,7 @@ public class PostService {
     }
 
     public PostResponseDto getPost(Long postId) {
-       PostEntity postEntity = postJpaRepository.findById(postId)
-                .orElseThrow(()-> new NullPointerException("해당 게시글을 찾을 수 없습니다."));
+       PostEntity postEntity = getPostEntity(postId);
 
        return new PostResponseDto(postEntity);
     }
@@ -32,5 +33,21 @@ public class PostService {
     public List<PostResponseDto> getPosts() {
         return postJpaRepository.findAllBydOrderByCreatedAtDesc().stream()
                 .map(PostResponseDto::new).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public PostResponseDto updatePost(Long postId, PostUpdateRequestDto requestDto) {
+        PostEntity postEntity = getPostEntity(postId);
+
+        if(!postEntity.getPassword().equals(requestDto.getPassword())){
+            throw new NullPointerException("비밀번호가 일치하지 않습니다.");
+        }
+        postEntity.update(requestDto);
+
+        return new PostResponseDto(postEntity);
+    }
+    private PostEntity getPostEntity(Long postId) {
+        return postJpaRepository.findById(postId)
+                .orElseThrow(() -> new NullPointerException("해당 게시글을 찾을 수 없습니다."));
     }
 }

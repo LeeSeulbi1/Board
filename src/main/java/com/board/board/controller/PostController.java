@@ -3,6 +3,7 @@ package com.board.board.controller;
 import com.board.board.Service.PostService;
 import com.board.board.dto.PostAddRequestDto;
 import com.board.board.dto.PostResponseDto;
+import com.board.board.dto.PostUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class PostController {
 
     }
 
-    @GetMapping("/{postid}")
+    @GetMapping("/{postId}")
     public PostResponseDto getPost(
             @PathVariable Long postId
     ){
@@ -38,4 +39,11 @@ public class PostController {
         return postService.getPosts();
     }
 
+    @PatchMapping("/{postId}")
+    public PostResponseDto updatePost(
+            @PathVariable Long postId,
+            @RequestBody PostUpdateRequestDto requestDto
+    ){
+        return postService.updatePost(postId, requestDto);
+    }
 }
