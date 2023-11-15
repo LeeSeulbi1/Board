@@ -37,4 +37,8 @@ public class PostEntity extends TimeEntity {
         this.contents = requestDto.getContent();
 
     }
+
+    public boolean passwordMatches(String inputPassword) {
+        return this.password.equals(inputPassword);
+    }
 }
